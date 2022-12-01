@@ -1,0 +1,9 @@
+title 0.4 Uusi muistiinpano
+
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+Browser-->Server: HTTP Form Data
+Server->Browser: HTTP STATUS 302 (redirect)
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server->Browser: HTTP STATUS 200 (OK)
+Server-->Browser: Response body HTML Page
+
