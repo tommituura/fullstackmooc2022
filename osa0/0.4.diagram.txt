@@ -6,4 +6,20 @@ Server->Browser: HTTP STATUS 302 (redirect)
 Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
 Server->Browser: HTTP STATUS 200 (OK)
 Server-->Browser: Response body HTML Page
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server->Browser: HTTP STATUS 200 (OK)
+Server-->Browser: Response body css file contents
 
+note over Browser
+Selain suorittaa javascriptiä, 
+rakentaa ajax -kutsun uuden sisällön hakemiseen
+end note 
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server->Browser: HTTP STATUS 200 (OK)
+Server-->Browser: [{ content: "msg" , date: "2022-12-01-..."}, { content: ... }]
+
+note over Browser:
+Selain rakentaa sivun DOM-puuhun uuden 
+datan mukaisen sisällön 
+end note
