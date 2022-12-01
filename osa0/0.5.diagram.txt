@@ -1,0 +1,29 @@
+title 0.5 SPA Ensimmäinen lataus
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server->Browser: HTTP STATUS 200 (ok)
+Server-->Browser: Response body HTML page
+
+note over Browser:
+Selain parsii html-sisältöä, löytää viitteitä css- ja javascript -tiedostoihin
+end note
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+
+Server->Browser: main.css HTTP STATUS 200 (ok)
+Server-->Browser: Response body css data
+Server->Browser: spa.js HTTP STATUS 200 (ok)
+Server-->Browser: Response body javascript
+
+note over Browser:
+Selain parsii ja suorittaa javascriptiä, luo ajax-pyynnön data.jsonista
+end note
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server->Browser: data.json HTTP STATUS 200 (ok)
+Server-->Browser: [{content: "msg", date: "2022-12-01-..."}, {content: ...}]
+
+note over Browser:
+Selain rakentaa DOM-elementtipuuhun datan sisällön.
+end note
