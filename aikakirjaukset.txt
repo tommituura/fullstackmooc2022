@@ -1,0 +1,5 @@
+Itselle kirjoitettu summittainen muistilista kauanko on mennyt aikaa. 
+
+https://fullstackopen.com/osa1/reactin_alkeet
+
+Lukemiseen ja esimerkkien näppäilyyn käytetty 02.12.2022 1h aikaa 
