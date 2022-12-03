@@ -3,24 +3,24 @@ import { useState } from 'react'
 const Statistics = ({good, neutral, bad, all, avg, positivePercentage}) => {
   if (all === 0) {
     return (
-      <div>
-        <p>No feedback given</p>
-      </div>
+      <p>No feedback given</p>
     )
   }
   return (
-    <div>
-      <StatisticsLine text="good" value={good} />
-      <StatisticsLine text="neutral" value={neutral} />
-      <StatisticsLine text="bad" value={bad} />
-      <StatisticsLine text="all" value={all} />
-      <StatisticsLine text="average" value={avg} />
-      <StatisticsLine text="positive" value={`${positivePercentage} %`} />
-    </div>
+    <table>
+      <tbody>
+        <StatisticsLine text="good" value={good} />
+        <StatisticsLine text="neutral" value={neutral} />
+        <StatisticsLine text="bad" value={bad} />
+        <StatisticsLine text="all" value={all} />
+        <StatisticsLine text="average" value={avg} />
+        <StatisticsLine text="positive" value={`${positivePercentage} %`} />
+      </tbody>
+    </table>
   )
 }
 
-const StatisticsLine = ({text, value}) => <p>{text} {value}</p>
+const StatisticsLine = ({text, value}) =>  <tr><td>{text}</td><td>{value}</td></tr>
 
 const Button = ({clickHandler, text}) => {
   return (
