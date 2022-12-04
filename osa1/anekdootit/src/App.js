@@ -2,6 +2,15 @@ import { useState } from 'react'
 
 const Button = ({clickHandler, text}) => <button onClick={clickHandler}>{text}</button>
 
+const Anecdote = ({anecdotes, points, index}) => {
+  return (
+    <>
+      <p>{anecdotes[index]}</p>
+      <p>has {points[index]} votes</p>
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -28,10 +37,14 @@ const App = () => {
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p>has {points[selected]} votes</p>
+      <h1>Anecdote of the day</h1>
+      <Anecdote anecdotes={anecdotes} points={points} index={selected} />
       <Button clickHandler={() => giveVote(selected)} text="vote" />
       <Button clickHandler={nextRandomAnecdote} text="next anecdote" />
+      <h1>Anecdote with most votes</h1>
+      <Anecdote  anecdotes={anecdotes} points={points}
+        index={points.indexOf(Math.max(...points))}
+      />
     </div>
   )
 }
