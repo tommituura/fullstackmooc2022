@@ -29,5 +29,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 )
 
 
-const result = notes.map(note => note.id)
-console.log(result)
+// const result = notes.map(note => note.id)
+// console.log(result)
