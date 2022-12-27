@@ -1,3 +1,5 @@
+import './App.css'
+
 const Header = ({ coursename }) => <h1>{coursename}</h1>
 
 const Part = ({ part }) => <p>{part.name} {part.exercises}</p>
@@ -14,10 +16,21 @@ const Content = ({ parts }) => {
 
 const Course = ({ course }) => {
   return(
-    <div>
+    <div className='course'>
       <Header coursename={course.name} />
       <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
+  )
+}
+
+const Total = ({ parts }) => {
+  let sum = 0
+  for (const part of parts) {
+    sum += part.exercises
+  }
+  return (
+    <p className="total">total of {sum} exercises</p>
   )
 }
 
