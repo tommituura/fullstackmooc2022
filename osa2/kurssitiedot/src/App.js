@@ -1,51 +1,53 @@
-const Header = (props) => {
+const Header = ({ coursename }) => <h1>{coursename}</h1>
+
+const Part = ({ part }) => <p>{part.name} {part.exercises}</p>
+
+const Content = ({ parts }) => {
   return (
     <>
-      <h1>{props.course.name}</h1>
+      {parts.map((part) =>
+        <Part key={part.id} part={part} />
+      )}
     </>
   )
 }
 
-const Part = (props) => {
-  return (
-    <p>{props.name} {props.exercises}</p>
-  )
-}
-
-const Content = (props) => {
-  return (
-    <>
-    <Part name={props.course.parts[0].name} exercises={props.course.parts[0].exercises} />
-    <Part name={props.course.parts[1].name} exercises={props.course.parts[1].exercises} />
-    <Part name={props.course.parts[2].name} exercises={props.course.parts[2].exercises} />
-    </>
+const Course = ({ course }) => {
+  return(
+    <div>
+      <Header coursename={course.name} />
+      <Content parts={course.parts} />
+    </div>
   )
 }
 
 const App = () => {
   const course = {
     name: 'Half Stack application development',
+    id: 1,
     parts: [
       {
         name: 'Fundamentals of React',
-        exercises: 10
+        exercises: 10,
+        id: 1
       },
       {
         name: 'Using props to pass data',
-        exercises: 7
+        exercises: 7,
+        id: 2
       },
       {
         name: 'State of component',
-        exercises: 14
+        exercises: 14,
+        id: 3
       }
     ]
   }
 
   return (
-    <div>
-      <Header course={course} />
-      <Content course={course} />
-    </div>
+    <>
+      <Course key={course.id} course={course} />
+    </>
   )
 }
 
