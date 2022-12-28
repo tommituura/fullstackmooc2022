@@ -1,6 +1,52 @@
 import { useState } from 'react'
 
+const Filter = ({filter, changeHandler}) => {
+  return (
+    <div>
+      filter shown with <input
+        value={filter}
+        onChange={changeHandler}
+      />
+    </div>
+  )
+}
+
+const Persons = ({personlist, filter}) => {
+  return (
+    <>
+    {personlist.filter((person) => {
+      if (filter === '') return true
+      return person.name.toLocaleLowerCase().indexOf(filter.toLowerCase()) > -1
+    }).map((person) =>
+      <Person key={person.id} name={person.name} number={person.number}/>
+    )}
+    </>
+  )
+}
+
 const Person = ({ name, number }) => <p>{name} {number}</p>
+
+const PersonForm = ({ nameValue, numberValue, nameChangeHandler, numberChangeHandler, submitHandler}) => {
+  return (
+    <form onSubmit={submitHandler}>
+      <div>
+        name: <input
+          value={nameValue}
+          onChange={nameChangeHandler}
+        />
+      </div>
+      <div>
+        number: <input
+          value={numberValue}
+          onChange={numberChangeHandler}
+        />
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
+}
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -61,40 +107,24 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input 
-          value={filter}
-          onChange={handleFilterChange}
-        />
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input 
-            value={newName}
-            onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input 
-            value={newNumber}
-            onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {persons.filter((person) => {
-        if (filter === '') return true
-        return person.name.toLocaleLowerCase().indexOf(filter.toLowerCase()) > -1
-      }).map((person) => 
-        <Person key={person.id} name={person.name} number={person.number}/>
-      )}
+
+      <Filter filter={filter} changeHandler={handleFilterChange} />
+
+      <h3>Add a new</h3>
+
+      <PersonForm
+        nameValue={newName}
+        numberValue={newNumber}
+        nameChangeHandler={handleNameChange}
+        numberChangeHandler={handleNumberChange}
+        submitHandler={addPerson}
+      />
+
+      <h3>Numbers</h3>
+
+      <Persons personlist={persons} filter={filter}/>
     </div>
   )
-
 }
 
 export default App
