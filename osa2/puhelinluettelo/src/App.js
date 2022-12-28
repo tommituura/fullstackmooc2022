@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Filter = ({filter, changeHandler}) => {
   return (
@@ -49,15 +50,18 @@ const PersonForm = ({ nameValue, numberValue, nameChangeHandler, numberChangeHan
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { id: 1, name: 'Arto Hellas', number: '040-123456'},
-    { id: 2, name: 'Ada Lovelace', number: '39-44-5323523' },
-    { id: 3, name: 'Dan Abramov', number: '12-43-234345' },
-    { id: 4, name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
   // This function implicitly expects to get a list of objects that 
   // all have top-level "id" attribute 
@@ -72,7 +76,7 @@ const App = () => {
   }
 
   const personExists = () => 
-    persons.map((person) => person.name).indexOf(newName) > -1
+    persons.map((person) => person.name.toLowerCase()).indexOf(newName.toLowerCase()) > -1
 
 
   const addPerson = (event) => {
