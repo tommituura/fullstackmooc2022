@@ -1,12 +1,13 @@
 import { useState } from 'react'
 
-const Person = ({ name }) => <p>{name}</p>
+const Person = ({ name, number }) => <p>{name} {number}</p>
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', id: 1 }
+    { id: 1, name: 'Arto Hellas', number: '050-234 324'}
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   // This function implicitly expects to get a list of objects that 
   // all have top-level "id" attribute 
@@ -27,8 +28,9 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
+      id: nextUniqueID(persons),
       name: newName,
-      id: nextUniqueID(persons)
+      number: newNumber
     }
 
     if (personExists()) {
@@ -36,11 +38,16 @@ const App = () => {
     } else {
       setPersons(persons.concat(personObject))
       setNewName('')
+      setNewNumber('')
     }
   }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   return (
@@ -52,6 +59,10 @@ const App = () => {
             value={newName}
             onChange={handleNameChange}
           />
+          number: <input 
+            value={newNumber}
+            onChange={handleNumberChange}
+          />
         </div>
         <div>
           <button type="submit">add</button>
@@ -59,7 +70,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map((person) => 
-        <Person key={person.id} name={person.name} />
+        <Person key={person.id} name={person.name} number={person.number}/>
       )}
     </div>
   )
