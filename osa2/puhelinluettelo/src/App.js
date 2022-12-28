@@ -20,6 +20,10 @@ const App = () => {
     return maxId + 1
   }
 
+  const personExists = () => 
+    persons.map((person) => person.name).indexOf(newName) > -1
+
+
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
@@ -27,8 +31,12 @@ const App = () => {
       id: nextUniqueID(persons)
     }
 
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    if (personExists()) {
+      alert(`${newName} is already added to phonebook`)
+    } else {
+      setPersons(persons.concat(personObject))
+      setNewName('')
+    }
   }
 
   const handleNameChange = (event) => {
