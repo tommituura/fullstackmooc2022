@@ -12,16 +12,23 @@ const Filter = ({filter, changeHandler}) => {
   )
 }
 
-const Countries = ({ countries }) => {
+const Countries = ({ countries, countrySelectorHandler }) => {
   if (countries.length > 10)
     return <p>Too many matches, specify another filter</p>
   if (countries.length === 1)
     return (
-      <Country key={countries[0].name.common} country={countries[0]} />
+      <Country key={countries[0].ccn3} country={countries[0]} />
     )
   return (
     <>
-    {countries.map((country) => <p key={country.name.common}>{country.name.common}</p>)}
+    {countries.map((country) => 
+      <div key={country.ccn3}>{country.name.common}
+      <form onSubmit={countrySelectorHandler}>
+        <input type="hidden" value={country.ccn3} />
+        <input type="submit" value="show"/>
+      </form>
+      </div>
+    )}
     </>
   )
 }
@@ -51,7 +58,8 @@ const Country = ({ country }) => {
 
 const App = () => {
   const [countries, setCountries] = useState([])
-  const [filter, setFilter] = useState('')
+  const [inputs, setInputs] = useState({'filter': '', 'ccn3Selection': ''})
+
   useEffect(() => {
     axios
       .get('https://restcountries.com/v3.1/all')
@@ -61,16 +69,30 @@ const App = () => {
   }, [])
 
   const handleFilterChange = (event) => {
-    setFilter(event.target.value)
+    setInputs({'filter': event.target.value, 'ccn3Selection': ''})
   }
 
-  const filteredCountries = filter === '' ? []
-    : countries.filter( country => country.name.common.toLowerCase().includes( filter.toLowerCase() ) )
+  const handleCountrySelectCLick = (event) => {
+    event.preventDefault()
+    setInputs({'filter':inputs.filter, 'ccn3Selection': event.target.querySelector("input[type=hidden]").value})
+  }
+
+  const filterCountries = () => {
+    // will prefer exact selector over filter.
+    if (inputs.ccn3Selection !== '')
+      return countries.filter( country => country.ccn3 === inputs.ccn3Selection )
+    if (inputs.filter !== '')
+      return countries.filter( country => country.name.common.toLowerCase().includes( inputs.filter.toLowerCase() ) )
+    // if no filter or selection, return empty list
+    return []
+  }
+
+  const filteredCountries = filterCountries()
 
   return (
     <>
-      <Filter filter={filter} changeHandler={handleFilterChange} />
-      <Countries countries={filteredCountries} />
+      <Filter filter={inputs.filter} changeHandler={handleFilterChange} />
+      <Countries countries={filteredCountries} countrySelectorHandler={handleCountrySelectCLick} />
     </>
 
   );
